@@ -1,0 +1,192 @@
+# For maximum Emacs comfort, I remap my keyboard to conform to the Symbolics'
+# Lisp Machine keyboard layout. This was the keyboard Emacs' was originally
+# written on/with.
+#
+# First thing to do is find out the keyboard evdev indentifier...
+#
+# Get usb keyboard identifier with:
+#
+# cat /proc/bus/input/devices | grep -i keyboard -A 9 -B 1
+#
+# Make sure all the of the keyboard identifier string is capitalised apart from
+# the section delimiters... (b****v***p***)
+#
+# Get AT laptop keyboards with:
+#
+# cat /sys/class/dmi/id/modalias
+#
+# Next - find the correct keycodes use the evtest utility with the path to the
+# input device as the parameter, eg. /dev/input/event0. The keycode is the
+# unique identifier after the string "value".
+#
+# One thing to note is that Meta refers to Super in the output from evtest, not
+# Alt as you might expect.
+#
+- name: Remap keyboards to space cadet layout
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Remap Microsoft Natural Ergonomic Keyboard 4000
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} Microsoft Natural Ergonomic Keyboard 4000"
+      block: |+
+        evdev:input:b0003v045Ep00DB*
+         KEYBOARD_KEY_70029=capslock      # esc   --> caps
+         KEYBOARD_KEY_70039=esc           # caps  --> esc
+         KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+         KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+         KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+         KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+         KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+         KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+
+  - name: Remap Microsoft Sculpt Ergonomic Keyboard
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} Microsoft Sculpt Ergonomic Keyboard"
+      block: |+
+        evdev:input:b0003v045Ep07A5*
+         KEYBOARD_KEY_70029=capslock      # esc   --> caps
+         KEYBOARD_KEY_70039=esc           # caps  --> esc
+         KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+         KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+         KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+         KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+         KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+         KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+
+  - name: Remap Pinebook Pro Keyboard
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} Pinebook Pro"
+      block: |+
+        evdev:input:b0003v258Ap001E*
+         KEYBOARD_KEY_70029=capslock         # esc   --> caps
+         KEYBOARD_KEY_70039=esc              # caps  --> esc
+         KEYBOARD_KEY_700e6=leftctrl         # alt   --> ctrl
+         KEYBOARD_KEY_700e2=leftctrl         # altgr --> ctrl
+         KEYBOARD_KEY_700e4=leftalt          # super --> alt
+         KEYBOARD_KEY_700e3=leftalt          # ctrl  --> alt
+         KEYBOARD_KEY_700e0=leftmeta         # left  --> meta
+         KEYBOARD_KEY_70050=leftmeta         # ctrl  --> meta
+
+  - name: Remap HP Probook
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} HP Probook"
+      block: |+
+        evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHP*ProBook*
+         KEYBOARD_KEY_01=capslock         # esc   --> caps
+         KEYBOARD_KEY_3a=esc              # caps  --> esc
+         KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+         KEYBOARD_KEY_db=leftalt          # super --> leftalt
+         KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+         KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+         KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
+         KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
+
+  - name: Remap Dell XPS 13 L322X
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} Dell XPS 13 L322X"
+      block: |+
+        evdev:atkbd:dmi:bvn*:bvr*:svnDellInc.:pnXPSL322X:pvr:rvnDellInc.*
+         KEYBOARD_KEY_01=capslock         # esc   --> caps
+         KEYBOARD_KEY_3a=esc              # caps  --> esc
+         KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+         KEYBOARD_KEY_db=leftalt          # super --> leftalt
+         KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+         KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+         KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
+         KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
+
+  - name: Remap ThinkPad X1 Carbon Gen 8
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} ThinkPad Carbon Gen 8"
+      block: |+
+        evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX1CarbonGen8*
+         KEYBOARD_KEY_01=capslock         # esc   --> caps
+         KEYBOARD_KEY_3a=esc              # caps  --> esc
+         KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+         KEYBOARD_KEY_db=leftalt          # super --> leftalt
+         KEYBOARD_KEY_1d=leftmeta         # leftctrl  --> leftsuper
+         KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+         KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
+         KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
+
+  - name: Remap ThinkPad X131e
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} ThinkPad X131e"
+      block: |+
+        evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX131e*
+         KEYBOARD_KEY_01=capslock         # esc   --> caps
+         KEYBOARD_KEY_3a=esc              # caps  --> esc
+         KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+         KEYBOARD_KEY_db=leftalt          # super --> leftalt
+         KEYBOARD_KEY_1d=leftmeta         # leftctrl  --> leftsuper
+         KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+         KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
+         KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
+
+  - name: Remap ThinkPad Bluetooth Chicklet
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} ThinkPad Bluetooth Chicklet"
+      block: |+
+        evdev:input:b0005v17EFp6048*
+         KEYBOARD_KEY_70029=capslock         # esc   --> caps
+         KEYBOARD_KEY_70039=esc              # caps  --> esc
+         KEYBOARD_KEY_700e2=leftctrl         # alt   --> leftctrl
+         KEYBOARD_KEY_700e6=leftctrl         # altgr --> leftctrl
+         KEYBOARD_KEY_700e3=leftalt          # super --> leftalt
+         KEYBOARD_KEY_70046=leftalt          # prtsc --> leftalt (to avoid altgr shit)
+         KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
+         KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
+
+  - name: Remap ThinkPad T14
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} ThinkPad T14"
+      block: |+
+       evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
+        KEYBOARD_KEY_01=capslock
+        KEYBOARD_KEY_3a=esc
+        KEYBOARD_KEY_b8=leftctrl
+        KEYBOARD_KEY_38=leftctrl
+        KEYBOARD_KEY_b7=leftalt
+        KEYBOARD_KEY_db=leftalt
+        KEYBOARD_KEY_9d=leftmeta
+        KEYBOARD_KEY_1d=leftmeta
+
+  - name: Remap ThinkPad X13
+    blockinfile:
+      path: /etc/udev/hwdb.d/90-kbd.hwdb
+      create: true
+      marker: "# {mark} ThinkPad X13"
+      block: |+
+       evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX13*
+        KEYBOARD_KEY_01=capslock
+        KEYBOARD_KEY_3a=esc
+        KEYBOARD_KEY_b8=leftctrl
+        KEYBOARD_KEY_38=leftctrl
+        KEYBOARD_KEY_b7=leftalt
+        KEYBOARD_KEY_db=leftalt
+        KEYBOARD_KEY_9d=leftmeta
+        KEYBOARD_KEY_1d=leftmeta
+
+  - name: Run udevadm hwdb --update
+    command: udevadm hwdb --update
+  - name: Run udevadm trigger
+    command: udevadm trigger

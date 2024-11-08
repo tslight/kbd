@@ -1,0 +1,196 @@
+#+TITLE: SPACE CADET KEYBOARD
+#+PROPERTY: header-args :cache yes
+#+PROPERTY: header-args+ :mkdirp yes
+#+PROPERTY: header-args+ :tangle-mode (identity #o644)
+#+PROPERTY: header-args+ :results silent
+#+PROPERTY: header-args+ :padline yes
+#+PROPERTY: header-args+ :tangle /sudo::/etc/udev/hwdb.d/90-kbd.hwdb
+
+For maximum Emacs comfort, I remap my keyboard to conform to the Symbolics'
+[[http://xahlee.info/kbd/space-cadet_keyboard.html][Space-Cadet]] Lisp Machine keyboard layout. This was the keyboard Emacs' was
+originally written on/with.
+
+#+CAPTION: The Venerable Space Cadet Keyboard
+#+NAME:fig:Space_Cadet
+[[../img/space_cadet_close_up.jpg]]
+
+This layout not only makes so much more sense for Emacs, but for most other
+applications too. Typically the Control key is the most commonly used modifier,
+followed by Alt /(Meta)/, and then the Super /(Windows)/ key.
+
+It makes the most sense to me, to have the most used modifiers accessible with
+one's strongest digits (the thumbs), and the least used modifiers using the
+weakest digit - one's pinkies.
+
+It also means that your modifiers are symmetrical, so you can use them in the
+same touch-typing fashion as the shift key (ie. one hand presses modifier, the
+other, the modified key).
+
+There are a variety of ways to achieve this on Linux - ~setxkbmap~, ~xmodmap~
+or with ~udev~. I choose the latter as it remaps at a lower level and therefore
+works in both X11 and a tty.
+
+* Remapping with udev
+
+[[https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes][Map Scancodes to Keycodes]]
+
+To find the correct keycodes use the evtest utility with the path to the input
+device as the parameter, eg. /dev/input/event0. The keycode is the unique
+identifier after the string "value".
+
+One thing to note is that Meta refers to Super in the output from evtest, not
+Alt as you might expect.
+
+#+BEGIN_SRC sh :tangle no
+  sudo evtest /dev/input/event0
+#+END_SRC
+
+For examples of how to derive the keyboard type matching rule, check [[https://github.com/systemd/systemd/blob/master/hwdb/60-keyboard.hwdb][here]].
+
+Also, ~/usr/include/linux/input.h~ may be of use... Good luck!
+
+You can get also the keyboard identifier with:
+
+#+BEGIN_SRC sh :tangle no
+  cat /proc/bus/input/devices | grep -i keyboard -A 9 -B 1
+#+END_SRC
+
+Make sure all the of the keyboard identifier string is capitalised apart from
+the section delimiters... (b****v***p***)
+
+Finally one needs to run:
+
+#+BEGIN_SRC sh :tangle no
+  sudo udevadm hwdb --update && sudo systemd-hwdb update && sudo udevadm trigger
+#+END_SRC
+
+To check this has worked, run the following:
+
+#+BEGIN_SRC sh :tangle no
+  udevadm info /dev/input/by-path/*-usb-*-kbd | grep KEYBOARD_KEY
+  udevadm info /dev/input/eventX | grep KEYBOARD_KEY
+#+END_SRC
+
+* Microsoft Natural Ergonomic Keyboard 4000
+
+#+BEGIN_SRC conf
+  # Microsoft Natural Ergonomic Keyboard 4000
+  evdev:input:b0003v045Ep00DB*
+   KEYBOARD_KEY_70029=capslock      # esc   --> caps
+   KEYBOARD_KEY_70039=esc           # caps  --> esc
+   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+   KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+   KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+#+END_SRC
+
+* Microsoft Sculpt Ergonomic Keyboard
+
+Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver v2.1"
+
+#+begin_src conf
+  # Microsoft Sculpt Ergonomic Keyboard
+  evdev:input:b0003v045Ep07A5*
+   KEYBOARD_KEY_70029=capslock      # esc   --> caps
+   KEYBOARD_KEY_70039=esc           # caps  --> esc
+   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+   KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+   KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+#+end_src
+
+* Microsoft Wired USB
+
+#+BEGIN_SRC conf
+  # Microsoft Wired USB Keyboard
+  evdev:input:b0003v045Ep0752*
+   KEYBOARD_KEY_70029=capslock      # esc   --> caps
+   KEYBOARD_KEY_70039=esc           # caps  --> esc
+   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+   KEYBOARD_KEY_700e7=leftalt       # super --> leftalt
+   KEYBOARD_KEY_70065=leftmeta      # menu  --> leftmeta
+   KEYBOARD_KEY_700e4=menu          # ctrl  --> menu
+#+END_SRC
+
+* Apple MacBook Pro OG
+
+#+BEGIN_SRC conf
+  # Apple MacBook Pro
+  evdev:input:b0003v05ACp0253*
+   KEYBOARD_KEY_70029=capslock      # esc       --> caps
+   KEYBOARD_KEY_70039=esc           # caps      --> esc
+   KEYBOARD_KEY_700e3=leftctrl      # leftcmd   --> leftctrl
+   KEYBOARD_KEY_700e7=leftctrl      # rightcmd  --> leftctrl
+   KEYBOARD_KEY_700e2=leftalt       # leftopt   --> leftalt
+   KEYBOARD_KEY_700e6=leftalt       # rightopt  --> leftalt (to avoid altgr shit)
+   KEYBOARD_KEY_700e0=leftmeta      # leftctrl  --> super
+   KEYBOARD_KEY_70050=leftmeta      # leftarrow --> super
+#+END_SRC
+
+* Lenovo Thinkpad Bluetooth Chicklet
+
+Bus=0005 Vendor=17ef Product=6048 Version=0312
+
+#+BEGIN_SRC conf
+  evdev:input:b0005v17EFp6048*
+   KEYBOARD_KEY_70029=capslock         # esc   --> caps
+   KEYBOARD_KEY_70039=esc              # caps  --> esc
+   KEYBOARD_KEY_700e2=leftctrl         # alt   --> leftctrl
+   KEYBOARD_KEY_700e6=leftctrl         # altgr --> leftctrl
+   KEYBOARD_KEY_700e3=leftalt          # super --> leftalt
+   KEYBOARD_KEY_70046=leftalt          # prtsc --> leftalt (to avoid altgr shit)
+   KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
+   KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
+#+END_SRC
+
+* Lenovo ThinkPad T/W/X Chicklet
+
+#+BEGIN_SRC conf
+  # Lenovo ThinkPad T & X series post 2012
+  evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][24][3-9]0*
+   KEYBOARD_KEY_01=capslock         # esc   --> caps
+   KEYBOARD_KEY_3a=esc              # caps  --> esc
+   KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+   KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+   KEYBOARD_KEY_db=leftalt          # super --> leftalt
+   KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt (to avoid altgr shit)
+   KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+   KEYBOARD_KEY_9d=leftmeta         # ctrl  --> super
+#+END_SRC
+
+* Lenovo ThinkPad T/W/X OG
+
+#+BEGIN_SRC conf
+  # Lenovo ThinkPad T & X series pre 2012
+  evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][246][0-2]*
+   KEYBOARD_KEY_01=capslock         # esc   --> caps
+   KEYBOARD_KEY_3a=esc              # caps  --> esc
+   KEYBOARD_KEY_b8=leftctrl         # altgr --> rctrl
+   KEYBOARD_KEY_38=leftctrl         # alt   --> lctrl
+   KEYBOARD_KEY_db=leftalt          # lwin  --> lalt
+   KEYBOARD_KEY_dd=leftalt          # menu  --> lalt, not altgr (hence left)
+   KEYBOARD_KEY_9d=leftmeta         # rctrl --> rwin
+   KEYBOARD_KEY_1d=leftmeta         # lctrl --> lwin
+#+END_SRC
+
+* HP Probook 430 G6
+
+#+BEGIN_SRC conf
+  # HP Probook 430 G6
+  evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHP*ProBook*430*G6*
+   KEYBOARD_KEY_01=capslock         # esc   --> caps
+   KEYBOARD_KEY_3a=esc              # caps  --> esc
+   KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+   KEYBOARD_KEY_db=leftalt          # super --> leftalt
+   KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+   KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+   KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt (otherwise altgr)
+   KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
+#+END_SRC

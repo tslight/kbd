@@ -1,4 +1,4 @@
-# BEGIN Microsoft Natural Ergonomic Keyboard 4000
+# Microsoft Natural Ergonomic Keyboard 4000
 evdev:input:b0003v045Ep00DB*
  KEYBOARD_KEY_70029=capslock      # esc   --> caps
  KEYBOARD_KEY_70039=esc           # caps  --> esc
@@ -9,8 +9,7 @@ evdev:input:b0003v045Ep00DB*
  KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
  KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
 
-# END Microsoft Natural Ergonomic Keyboard 4000
-# BEGIN Microsoft Sculpt Ergonomic Keyboard
+# Microsoft Sculpt Ergonomic Keyboard
 evdev:input:b0003v045Ep07A5*
  KEYBOARD_KEY_70029=capslock      # esc   --> caps
  KEYBOARD_KEY_70039=esc           # caps  --> esc
@@ -21,8 +20,7 @@ evdev:input:b0003v045Ep07A5*
  KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
  KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
 
-# END Microsoft Sculpt Ergonomic Keyboard
-# BEGIN Pinebook Pro
+# Pinebook Pro
 evdev:input:b0003v258Ap001E*
  KEYBOARD_KEY_70029=capslock         # esc   --> caps
  KEYBOARD_KEY_70039=esc              # caps  --> esc
@@ -33,8 +31,7 @@ evdev:input:b0003v258Ap001E*
  KEYBOARD_KEY_700e0=leftmeta         # left  --> meta
  KEYBOARD_KEY_70050=leftmeta         # ctrl  --> meta
 
-# END Pinebook Pro
-# BEGIN HP Probook
+# HP Probook
 evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHP*ProBook*
  KEYBOARD_KEY_01=capslock         # esc   --> caps
  KEYBOARD_KEY_3a=esc              # caps  --> esc
@@ -45,8 +42,7 @@ evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHP*ProBook*
  KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
  KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
 
-# END HP Probook
-# BEGIN Dell XPS 13 L322X
+# Dell XPS 13 L322X
 evdev:atkbd:dmi:bvn*:bvr*:svnDellInc.:pnXPSL322X:pvr:rvnDellInc.*
  KEYBOARD_KEY_01=capslock         # esc   --> caps
  KEYBOARD_KEY_3a=esc              # caps  --> esc
@@ -57,8 +53,7 @@ evdev:atkbd:dmi:bvn*:bvr*:svnDellInc.:pnXPSL322X:pvr:rvnDellInc.*
  KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
  KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
 
-# END Dell XPS 13 L322X
-# BEGIN ThinkPad Carbon Gen 8
+# ThinkPad Carbon Gen 8
 evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX1CarbonGen8*
  KEYBOARD_KEY_01=capslock         # esc   --> caps
  KEYBOARD_KEY_3a=esc              # caps  --> esc
@@ -69,8 +64,7 @@ evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX1CarbonGen8*
  KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
  KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
 
-# END ThinkPad Carbon Gen 8
-# BEGIN ThinkPad X131e
+# ThinkPad X131e
 evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX131e*
  KEYBOARD_KEY_01=capslock         # esc   --> caps
  KEYBOARD_KEY_3a=esc              # caps  --> esc
@@ -81,8 +75,7 @@ evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX131e*
  KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
  KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
 
-# END ThinkPad X131e
-# BEGIN ThinkPad Bluetooth Chicklet
+# ThinkPad Bluetooth Chicklet
 evdev:input:b0005v17EFp6048*
  KEYBOARD_KEY_70029=capslock         # esc   --> caps
  KEYBOARD_KEY_70039=esc              # caps  --> esc
@@ -93,8 +86,7 @@ evdev:input:b0005v17EFp6048*
  KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
  KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
 
-# END ThinkPad Bluetooth Chicklet
-# BEGIN ThinkPad T14
+# ThinkPad T14
 evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
  KEYBOARD_KEY_01=capslock
  KEYBOARD_KEY_3a=esc
@@ -104,5 +96,3 @@ evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
  KEYBOARD_KEY_db=leftalt
  KEYBOARD_KEY_9d=leftmeta
  KEYBOARD_KEY_1d=leftmeta
-
-# END ThinkPad T14
