@@ -96,3 +96,14 @@ evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
  KEYBOARD_KEY_db=leftalt
  KEYBOARD_KEY_9d=leftmeta
  KEYBOARD_KEY_1d=leftmeta
+
+# MacBook Pro M1
+evdev:input:b001Cv05ACp0342*
+ KEYBOARD_KEY_700e7=rightctrl # command
+ KEYBOARD_KEY_700e6=leftalt # option
+ KEYBOARD_KEY_70050=rightmeta # left arrow
+ KEYBOARD_KEY_700e3=leftctrl
+ KEYBOARD_KEY_700e2=leftalt
+ KEYBOARD_KEY_700e0=leftmeta
+ KEYBOARD_KEY_70039=esc
+ KEYBOARD_KEY_70029=capslock
