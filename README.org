@@ -4,7 +4,7 @@
 #+PROPERTY: header-args+ :tangle-mode (identity #o644)
 #+PROPERTY: header-args+ :results silent
 #+PROPERTY: header-args+ :padline yes
-#+PROPERTY: header-args+ :tangle ./kbd.hwdb
+#+PROPERTY: header-args+ :tangle ./sc-kbd.hwdb
 
 For maximum Emacs comfort, I remap my keyboard to conform to the Symbolics'
 [[http://xahlee.info/kbd/space-cadet_keyboard.html][Space-Cadet]] Lisp Machine keyboard layout. This was the keyboard Emacs' was
