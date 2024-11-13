@@ -1,13 +1,13 @@
 # Apple MacBook Pro M1
 evdev:input:b001Cv05ACp0342*
+  KEYBOARD_KEY_70039=esc
+  KEYBOARD_KEY_70029=capslock
   KEYBOARD_KEY_700e7=rightctrl # command
   KEYBOARD_KEY_700e6=leftalt # option
   KEYBOARD_KEY_70050=rightmeta # left arrow
   KEYBOARD_KEY_700e3=leftctrl
   KEYBOARD_KEY_700e2=leftalt
   KEYBOARD_KEY_700e0=leftmeta
-  KEYBOARD_KEY_70039=esc
-  KEYBOARD_KEY_70029=capslock
 
 # Apple MacBook Pro
 evdev:input:b0003v05ACp0253*
@@ -99,7 +99,7 @@ evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][246][0-2]*
   KEYBOARD_KEY_1d=leftmeta         # lctrl --> lwin
 
 # Lenovo ThinkPad T14
-evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
+evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPad[TX]1[34]*
   KEYBOARD_KEY_01=capslock
   KEYBOARD_KEY_3a=esc
   KEYBOARD_KEY_b8=leftctrl

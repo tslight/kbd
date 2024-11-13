@@ -104,20 +104,21 @@ PR.
 style layout, as that's kinda the whole point of this repo!
 
 * KEYBOARDS
-** Apple MacBook Pro M1
+** APPLE
+*** Apple MacBook Pro M1
 #+begin_src conf
   # Apple MacBook Pro M1
   evdev:input:b001Cv05ACp0342*
+    KEYBOARD_KEY_70039=esc
+    KEYBOARD_KEY_70029=capslock
     KEYBOARD_KEY_700e7=rightctrl # command
     KEYBOARD_KEY_700e6=leftalt # option
     KEYBOARD_KEY_70050=rightmeta # left arrow
     KEYBOARD_KEY_700e3=leftctrl
     KEYBOARD_KEY_700e2=leftalt
     KEYBOARD_KEY_700e0=leftmeta
-    KEYBOARD_KEY_70039=esc
-    KEYBOARD_KEY_70029=capslock
 #+end_src
-** Apple MacBook Pro OG
+*** Apple MacBook Pro OG
 #+BEGIN_SRC conf
   # Apple MacBook Pro
   evdev:input:b0003v05ACp0253*
@@ -130,7 +131,8 @@ style layout, as that's kinda the whole point of this repo!
     KEYBOARD_KEY_700e0=leftmeta      # leftctrl  --> super
     KEYBOARD_KEY_70050=leftmeta      # leftarrow --> super
 #+END_SRC
-** Dell XPS 13 L322X
+** DELL
+*** Dell XPS 13 L322X
 #+begin_src conf
   # Dell XPS 13 L322X
   evdev:atkbd:dmi:bvn*:bvr*:svnDellInc.:pnXPSL322X:pvr:rvnDellInc.*
@@ -143,7 +145,8 @@ style layout, as that's kinda the whole point of this repo!
     KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
     KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
 #+end_src
-** Microsoft Natural Ergonomic Keyboard 4000
+** MICROSOFT
+*** Microsoft Natural Ergonomic Keyboard 4000
 #+BEGIN_SRC conf
   # Microsoft Natural Ergonomic Keyboard 4000
   evdev:input:b0003v045Ep00DB*
@@ -156,7 +159,7 @@ style layout, as that's kinda the whole point of this repo!
     KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
     KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
 #+END_SRC
-** Microsoft Sculpt Ergonomic Keyboard
+*** Microsoft Sculpt Ergonomic Keyboard
 Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver v2.1"
 #+begin_src conf
   # Microsoft Sculpt Ergonomic Keyboard
@@ -170,7 +173,7 @@ Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver
     KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
     KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
 #+end_src
-** Microsoft Wired USB
+*** Microsoft Wired USB
 #+BEGIN_SRC conf
   # Microsoft Wired USB Keyboard
   evdev:input:b0003v045Ep0752*
@@ -184,8 +187,8 @@ Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver
     KEYBOARD_KEY_70065=leftmeta      # menu  --> leftmeta
     KEYBOARD_KEY_700e4=menu          # ctrl  --> menu
 #+END_SRC
-** Lenovo Thinkpad Bluetooth Chicklet
-Bus=0005 Vendor=17ef Product=6048 Version=0312
+** LENOVO
+*** Lenovo Thinkpad Bluetooth Chicklet
 #+BEGIN_SRC conf
   # Lenovo Thinkpad Bluetooth Chicklet
   evdev:input:b0005v17EFp6048*
@@ -198,7 +201,7 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
     KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
 #+END_SRC
-** Lenovo ThinkPad T/W/X Chicklet
+*** Lenovo ThinkPad T/W/X Chicklet
 #+BEGIN_SRC conf
   # Lenovo ThinkPad T & X series post 2012
   evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][24][3-9]0*
@@ -211,7 +214,7 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
     KEYBOARD_KEY_9d=leftmeta         # ctrl  --> super
 #+END_SRC
-** Lenovo ThinkPad T/W/X OG
+*** Lenovo ThinkPad T/W/X OG
 #+BEGIN_SRC conf
   # Lenovo ThinkPad T & X series pre 2012
   evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][246][0-2]*
@@ -224,10 +227,10 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_9d=leftmeta         # rctrl --> rwin
     KEYBOARD_KEY_1d=leftmeta         # lctrl --> lwin
 #+END_SRC
-** Lenovo ThinkPad T14
+*** Lenovo ThinkPad X13/T14
 #+begin_src conf
   # Lenovo ThinkPad T14
-  evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
+  evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPad[TX]1[34]*
     KEYBOARD_KEY_01=capslock
     KEYBOARD_KEY_3a=esc
     KEYBOARD_KEY_b8=leftctrl
@@ -237,7 +240,7 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_9d=leftmeta
     KEYBOARD_KEY_1d=leftmeta
 #+end_src
-** Lenovo ThinkPad X131E
+*** Lenovo ThinkPad X131E
 #+begin_src conf
   # Lenovo ThinkPad X131E
   evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX131e*
@@ -250,7 +253,7 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
     KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
 #+end_src
-** Lenovo ThinkPad X1 Carbon Gen 8
+*** Lenovo ThinkPad X1 Carbon Gen 8
 #+begin_src conf
   # Lenovo ThinkPad X1 Carbon Gen 8
   evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX1CarbonGen8*
@@ -263,7 +266,8 @@ Bus=0005 Vendor=17ef Product=6048 Version=0312
     KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
     KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
 #+end_src
-** Pinebook Pro
+** PINE64
+*** Pinebook Pro
 #+begin_src conf
   # Pinebook Pro
   evdev:input:b0003v258Ap001E*
