@@ -35,10 +35,6 @@ works in X11, Wayland and a tty. Whereas the former only work in X11.
 Simply clone this repository, ~cd~ into it, run ~make~, and everything should
 /'just werk'/ (TM).
 
-#+BEGIN_SRC sh :tangle no
-  sudo systemd-hwdb update && sudo udevadm trigger
-#+END_SRC
-
 * Explanation/Manual Instructions
 
 We need to create a new file at ~/etc/udev/hwdb.d~ that has a section that
@@ -74,8 +70,8 @@ You can get also the keyboard identifier with:
   cat /proc/bus/input/devices | grep -i keyboard -A 9 -B 1
 #+END_SRC
 
-Make sure all the of the keyboard identifier string is capitalised apart from
-the section delimiters... (b****v***p***)
+*N.B.* Make sure all the of the keyboard identifier string is capitalised apart
+from the section delimiters... (~b****v***p***~)
 
 Finally one needs to run:
 
@@ -90,11 +86,12 @@ To check this has worked, run the following:
   udevadm info /dev/input/eventX | grep KEYBOARD_KEY
 #+END_SRC
 
-* Adding New Keyboards
+* Contributing/Adding New Keyboards
 
 To add a new keyboard, create a new entry under the "Keyboards" heading below,
-as described above, save this file (which will auto-tangle to the [[file:kbd.hwdb][kbd.hwdb]]
-file), run the ~make~ target, verify your changes work and raise a PR.
+as described above, save this file in Emacs (which will auto-tangle to the
+[[file:kbd.hwdb][kbd.hwdb]] file), run the ~make~ target, verify your changes work, and raise a
+PR.
 
 *N.B.* I will not accept any pull requests that don't remap to a space cadet
 style layout, as that's kinda the whole point of this repo!
