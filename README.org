@@ -28,20 +28,21 @@ other, the modified key).
 
 There are a variety of ways to achieve this on Linux - ~setxkbmap~, ~xmodmap~
 or with ~udev~. I choose the latter as it remaps at a lower level and therefore
-works in both X11 and a tty.
+works in X11, Wayland and a tty. Whereas the former only work in X11.
 
-* Quick Install
+* Quick/Easy Install/Setup
 
-Simply clone this repository, `cd` into it, run `make`, and everything should
-'just werk' (TM).
+Simply clone this repository, ~cd~ into it, run ~make~, and everything should
+/'just werk'/ (TM).
 
-Alternately, you can `org-babel-tangle` this file from Emacs and then run:
+Alternately, you can ~org-babel-tangle~ /(C-c C-v t)/ this file from Emacs and
+then run:
 
 #+BEGIN_SRC sh :tangle no
   sudo systemd-hwdb update && sudo udevadm trigger
 #+END_SRC
 
-* Explanation
+* Explanation/Manual Instructions
 
 [[https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes][Map Scancodes to Keycodes]]
 
