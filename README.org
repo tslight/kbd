@@ -44,6 +44,10 @@ then run:
 
 * Explanation/Manual Instructions
 
+We need to create a new file at ~/etc/udev/hwdb.d~ that has a section that
+references our keyboard identifier and underneath declares which scancodes map
+to which keycodes.
+
 [[https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes][Map Scancodes to Keycodes]]
 
 To find the correct keycodes use the evtest utility with the path to the input
@@ -73,7 +77,7 @@ the section delimiters... (b****v***p***)
 Finally one needs to run:
 
 #+BEGIN_SRC sh :tangle no
-  sudo udevadm hwdb --update && sudo systemd-hwdb update && sudo udevadm trigger
+  sudo systemd-hwdb update && sudo udevadm trigger
 #+END_SRC
 
 To check this has worked, run the following:
