@@ -30,12 +30,19 @@ There are a variety of ways to achieve this on Linux - ~setxkbmap~, ~xmodmap~
 or with ~udev~. I choose the latter as it remaps at a lower level and therefore
 works in X11, Wayland and a tty. Whereas the former only work in X11.
 
-* Quick/Easy Install/Setup
+* INSTALL
 
-Simply clone this repository, ~cd~ into it, run ~make~, and everything should
-/'just werk'/ (TM).
+*This will only work if your hardware is listed in the "KEYBOARDS" section
+below*
 
-* Explanation/Manual Instructions
+If it isn't please follow the "MODIFY" instructions, and I'd be very grateful if
+you'd also followed the "CONTRIBUTE" instructions and helped out the next
+guy...
+
+Providing your hardware is supported, simply clone this repository, ~cd~ into
+it, run ~make~, and everything should /'just werk'/ (TM).
+
+* MODIFY
 
 We need to create a new file at ~/etc/udev/hwdb.d~ that has a section that
 references our keyboard identifier and underneath declares which scancodes map
@@ -86,9 +93,9 @@ To check this has worked, run the following:
   udevadm info /dev/input/eventX | grep KEYBOARD_KEY
 #+END_SRC
 
-* Contributing/Adding New Keyboards
+* CONTRIBUTE
 
-To add a new keyboard, create a new entry under the "Keyboards" heading below,
+To add a new keyboard, create a new entry under the "KEYBOARDS" heading below,
 as described above, save this file in Emacs (which will auto-tangle to the
 [[file:kbd.hwdb][kbd.hwdb]] file), run the ~make~ target, verify your changes work, and raise a
 PR.
@@ -96,7 +103,7 @@ PR.
 *N.B.* I will not accept any pull requests that don't remap to a space cadet
 style layout, as that's kinda the whole point of this repo!
 
-* Keyboards
+* KEYBOARDS
 ** Apple MacBook Pro M1
 #+begin_src conf
   # Apple MacBook Pro M1
