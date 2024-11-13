@@ -1,10 +1,10 @@
-#+TITLE: SPACE CADET KEYBOARD
+#+TITLE: LINUX SPACE CADET KEYBOARD REMAPPING
 #+PROPERTY: header-args :cache yes
 #+PROPERTY: header-args+ :mkdirp yes
 #+PROPERTY: header-args+ :tangle-mode (identity #o644)
 #+PROPERTY: header-args+ :results silent
 #+PROPERTY: header-args+ :padline yes
-#+PROPERTY: header-args+ :tangle /sudo::/etc/udev/hwdb.d/90-kbd.hwdb
+#+PROPERTY: header-args+ :tangle ./kbd.hwdb
 
 For maximum Emacs comfort, I remap my keyboard to conform to the Symbolics'
 [[http://xahlee.info/kbd/space-cadet_keyboard.html][Space-Cadet]] Lisp Machine keyboard layout. This was the keyboard Emacs' was
@@ -35,9 +35,6 @@ works in X11, Wayland and a tty. Whereas the former only work in X11.
 Simply clone this repository, ~cd~ into it, run ~make~, and everything should
 /'just werk'/ (TM).
 
-Alternately, you can ~org-babel-tangle~ /(C-c C-v t)/ this file from Emacs and
-then run:
-
 #+BEGIN_SRC sh :tangle no
   sudo systemd-hwdb update && sudo udevadm trigger
 #+END_SRC
@@ -46,20 +43,26 @@ then run:
 
 We need to create a new file at ~/etc/udev/hwdb.d~ that has a section that
 references our keyboard identifier and underneath declares which scancodes map
-to which keycodes.
+to which keycodes (see [[file:kbd.hwdb][kbd.hwdb]] or the examples below).
 
 [[https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes][Map Scancodes to Keycodes]]
 
-To find the correct keycodes use the evtest utility with the path to the input
-device as the parameter, eg. /dev/input/event0. The keycode is the unique
-identifier after the string "value".
-
-One thing to note is that Meta refers to Super in the output from evtest, not
-Alt as you might expect.
+To find the correct keycodes use the ~evtest~ utility with the path to the
+input device as the parameter, eg. ~/dev/input/event0~.
 
 #+BEGIN_SRC sh :tangle no
   sudo evtest /dev/input/event0
 #+END_SRC
+
+If you run ~evtest~ with no argument it should ask you which device you want to
+test, and which one is the keyboard /should/ be obvious..
+
+*N.B.* ~evtest~ needs to be run as root to work.
+
+The keycode is the unique identifier after the string "value".
+
+One thing to note is that Meta refers to Super in the output from evtest, not
+Alt as you might expect.
 
 For examples of how to derive the keyboard type matching rule, check [[https://github.com/systemd/systemd/blob/master/hwdb/60-keyboard.hwdb][here]].
 
@@ -87,126 +90,189 @@ To check this has worked, run the following:
   udevadm info /dev/input/eventX | grep KEYBOARD_KEY
 #+END_SRC
 
-* Microsoft Natural Ergonomic Keyboard 4000
+* Adding New Keyboards
 
-#+BEGIN_SRC conf
-  # Microsoft Natural Ergonomic Keyboard 4000
-  evdev:input:b0003v045Ep00DB*
-   KEYBOARD_KEY_70029=capslock      # esc   --> caps
-   KEYBOARD_KEY_70039=esc           # caps  --> esc
-   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
-   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
-   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
-   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
-   KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
-   KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
-#+END_SRC
+To add a new keyboard, create a new entry under the "Keyboards" heading below,
+as described above, save this file (which will auto-tangle to the [[file:kbd.hwdb][kbd.hwdb]]
+file), run the ~make~ target, verify your changes work and raise a PR.
 
-* Microsoft Sculpt Ergonomic Keyboard
+*N.B.* I will not accept any pull requests that don't remap to a space cadet
+style layout, as that's kinda the whole point of this repo!
 
-Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver v2.1"
-
+* Keyboards
+** Apple MacBook Pro M1
 #+begin_src conf
-  # Microsoft Sculpt Ergonomic Keyboard
-  evdev:input:b0003v045Ep07A5*
-   KEYBOARD_KEY_70029=capslock      # esc   --> caps
-   KEYBOARD_KEY_70039=esc           # caps  --> esc
-   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
-   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
-   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
-   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
-   KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
-   KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+  # Apple MacBook Pro M1
+  evdev:input:b001Cv05ACp0342*
+    KEYBOARD_KEY_700e7=rightctrl # command
+    KEYBOARD_KEY_700e6=leftalt # option
+    KEYBOARD_KEY_70050=rightmeta # left arrow
+    KEYBOARD_KEY_700e3=leftctrl
+    KEYBOARD_KEY_700e2=leftalt
+    KEYBOARD_KEY_700e0=leftmeta
+    KEYBOARD_KEY_70039=esc
+    KEYBOARD_KEY_70029=capslock
 #+end_src
-
-* Microsoft Wired USB
-
-#+BEGIN_SRC conf
-  # Microsoft Wired USB Keyboard
-  evdev:input:b0003v045Ep0752*
-   KEYBOARD_KEY_70029=capslock      # esc   --> caps
-   KEYBOARD_KEY_70039=esc           # caps  --> esc
-   KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
-   KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
-   KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
-   KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
-   KEYBOARD_KEY_700e7=leftalt       # super --> leftalt
-   KEYBOARD_KEY_70065=leftmeta      # menu  --> leftmeta
-   KEYBOARD_KEY_700e4=menu          # ctrl  --> menu
-#+END_SRC
-
-* Apple MacBook Pro OG
-
+** Apple MacBook Pro OG
 #+BEGIN_SRC conf
   # Apple MacBook Pro
   evdev:input:b0003v05ACp0253*
-   KEYBOARD_KEY_70029=capslock      # esc       --> caps
-   KEYBOARD_KEY_70039=esc           # caps      --> esc
-   KEYBOARD_KEY_700e3=leftctrl      # leftcmd   --> leftctrl
-   KEYBOARD_KEY_700e7=leftctrl      # rightcmd  --> leftctrl
-   KEYBOARD_KEY_700e2=leftalt       # leftopt   --> leftalt
-   KEYBOARD_KEY_700e6=leftalt       # rightopt  --> leftalt (to avoid altgr shit)
-   KEYBOARD_KEY_700e0=leftmeta      # leftctrl  --> super
-   KEYBOARD_KEY_70050=leftmeta      # leftarrow --> super
+    KEYBOARD_KEY_70029=capslock      # esc       --> caps
+    KEYBOARD_KEY_70039=esc           # caps      --> esc
+    KEYBOARD_KEY_700e3=leftctrl      # leftcmd   --> leftctrl
+    KEYBOARD_KEY_700e7=leftctrl      # rightcmd  --> leftctrl
+    KEYBOARD_KEY_700e2=leftalt       # leftopt   --> leftalt
+    KEYBOARD_KEY_700e6=leftalt       # rightopt  --> leftalt (to avoid altgr shit)
+    KEYBOARD_KEY_700e0=leftmeta      # leftctrl  --> super
+    KEYBOARD_KEY_70050=leftmeta      # leftarrow --> super
 #+END_SRC
-
-* Lenovo Thinkpad Bluetooth Chicklet
-
-Bus=0005 Vendor=17ef Product=6048 Version=0312
-
+** Dell XPS 13 L322X
+#+begin_src conf
+  # Dell XPS 13 L322X
+  evdev:atkbd:dmi:bvn*:bvr*:svnDellInc.:pnXPSL322X:pvr:rvnDellInc.*
+    KEYBOARD_KEY_01=capslock         # esc   --> caps
+    KEYBOARD_KEY_3a=esc              # caps  --> esc
+    KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+    KEYBOARD_KEY_db=leftalt          # super --> leftalt
+    KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+    KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+    KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt
+    KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
+#+end_src
+** Microsoft Natural Ergonomic Keyboard 4000
 #+BEGIN_SRC conf
-  evdev:input:b0005v17EFp6048*
-   KEYBOARD_KEY_70029=capslock         # esc   --> caps
-   KEYBOARD_KEY_70039=esc              # caps  --> esc
-   KEYBOARD_KEY_700e2=leftctrl         # alt   --> leftctrl
-   KEYBOARD_KEY_700e6=leftctrl         # altgr --> leftctrl
-   KEYBOARD_KEY_700e3=leftalt          # super --> leftalt
-   KEYBOARD_KEY_70046=leftalt          # prtsc --> leftalt (to avoid altgr shit)
-   KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
-   KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
+  # Microsoft Natural Ergonomic Keyboard 4000
+  evdev:input:b0003v045Ep00DB*
+    KEYBOARD_KEY_70029=capslock      # esc   --> caps
+    KEYBOARD_KEY_70039=esc           # caps  --> esc
+    KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+    KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+    KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+    KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+    KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+    KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
 #+END_SRC
-
-* Lenovo ThinkPad T/W/X Chicklet
-
+** Microsoft Sculpt Ergonomic Keyboard
+Shows up in ~/proc/bus/input/devices~ as "Microsoft Microsoft® Nano Transceiver v2.1"
+#+begin_src conf
+  # Microsoft Sculpt Ergonomic Keyboard
+  evdev:input:b0003v045Ep07A5*
+    KEYBOARD_KEY_70029=capslock      # esc   --> caps
+    KEYBOARD_KEY_70039=esc           # caps  --> esc
+    KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+    KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+    KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+    KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+    KEYBOARD_KEY_70065=leftalt       # menu  --> leftalt
+    KEYBOARD_KEY_700e4=leftmeta      # ctrl  --> leftmeta
+#+end_src
+** Microsoft Wired USB
+#+BEGIN_SRC conf
+  # Microsoft Wired USB Keyboard
+  evdev:input:b0003v045Ep0752*
+    KEYBOARD_KEY_70029=capslock      # esc   --> caps
+    KEYBOARD_KEY_70039=esc           # caps  --> esc
+    KEYBOARD_KEY_700e2=leftctrl      # alt   --> leftctrl
+    KEYBOARD_KEY_700e3=leftalt       # super --> leftalt
+    KEYBOARD_KEY_700e0=leftmeta      # ctrl  --> super
+    KEYBOARD_KEY_700e6=leftctrl      # altgr --> leftctrl
+    KEYBOARD_KEY_700e7=leftalt       # super --> leftalt
+    KEYBOARD_KEY_70065=leftmeta      # menu  --> leftmeta
+    KEYBOARD_KEY_700e4=menu          # ctrl  --> menu
+#+END_SRC
+** Lenovo Thinkpad Bluetooth Chicklet
+Bus=0005 Vendor=17ef Product=6048 Version=0312
+#+BEGIN_SRC conf
+  # Lenovo Thinkpad Bluetooth Chicklet
+  evdev:input:b0005v17EFp6048*
+    KEYBOARD_KEY_70029=capslock         # esc   --> caps
+    KEYBOARD_KEY_70039=esc              # caps  --> esc
+    KEYBOARD_KEY_700e2=leftctrl         # alt   --> leftctrl
+    KEYBOARD_KEY_700e6=leftctrl         # altgr --> leftctrl
+    KEYBOARD_KEY_700e3=leftalt          # super --> leftalt
+    KEYBOARD_KEY_70046=leftalt          # prtsc --> leftalt (to avoid altgr shit)
+    KEYBOARD_KEY_700e0=leftmeta         # ctrl  --> super
+    KEYBOARD_KEY_700e4=leftmeta         # ctrl  --> super
+#+END_SRC
+** Lenovo ThinkPad T/W/X Chicklet
 #+BEGIN_SRC conf
   # Lenovo ThinkPad T & X series post 2012
   evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][24][3-9]0*
-   KEYBOARD_KEY_01=capslock         # esc   --> caps
-   KEYBOARD_KEY_3a=esc              # caps  --> esc
-   KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
-   KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
-   KEYBOARD_KEY_db=leftalt          # super --> leftalt
-   KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt (to avoid altgr shit)
-   KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
-   KEYBOARD_KEY_9d=leftmeta         # ctrl  --> super
+    KEYBOARD_KEY_01=capslock         # esc   --> caps
+    KEYBOARD_KEY_3a=esc              # caps  --> esc
+    KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+    KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+    KEYBOARD_KEY_db=leftalt          # super --> leftalt
+    KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt (to avoid altgr shit)
+    KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
+    KEYBOARD_KEY_9d=leftmeta         # ctrl  --> super
 #+END_SRC
-
-* Lenovo ThinkPad T/W/X OG
-
+** Lenovo ThinkPad T/W/X OG
 #+BEGIN_SRC conf
   # Lenovo ThinkPad T & X series pre 2012
   evdev:atkbd:dmi:bvn*:bvr*:bd*:svnLENOVO:pn*:pvrThinkPad[TWX][246][0-2]*
-   KEYBOARD_KEY_01=capslock         # esc   --> caps
-   KEYBOARD_KEY_3a=esc              # caps  --> esc
-   KEYBOARD_KEY_b8=leftctrl         # altgr --> rctrl
-   KEYBOARD_KEY_38=leftctrl         # alt   --> lctrl
-   KEYBOARD_KEY_db=leftalt          # lwin  --> lalt
-   KEYBOARD_KEY_dd=leftalt          # menu  --> lalt, not altgr (hence left)
-   KEYBOARD_KEY_9d=leftmeta         # rctrl --> rwin
-   KEYBOARD_KEY_1d=leftmeta         # lctrl --> lwin
+    KEYBOARD_KEY_01=capslock         # esc   --> caps
+    KEYBOARD_KEY_3a=esc              # caps  --> esc
+    KEYBOARD_KEY_b8=leftctrl         # altgr --> rctrl
+    KEYBOARD_KEY_38=leftctrl         # alt   --> lctrl
+    KEYBOARD_KEY_db=leftalt          # lwin  --> lalt
+    KEYBOARD_KEY_dd=leftalt          # menu  --> lalt, not altgr (hence left)
+    KEYBOARD_KEY_9d=leftmeta         # rctrl --> rwin
+    KEYBOARD_KEY_1d=leftmeta         # lctrl --> lwin
 #+END_SRC
-
-* HP Probook 430 G6
-
-#+BEGIN_SRC conf
-  # HP Probook 430 G6
-  evdev:atkbd:dmi:bvn*:bvr*:svnHP*:pnHP*ProBook*430*G6*
-   KEYBOARD_KEY_01=capslock         # esc   --> caps
-   KEYBOARD_KEY_3a=esc              # caps  --> esc
-   KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
-   KEYBOARD_KEY_db=leftalt          # super --> leftalt
-   KEYBOARD_KEY_1d=leftmeta         # ctrl  --> super
-   KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
-   KEYBOARD_KEY_9d=leftalt          # ctrl  --> leftalt (otherwise altgr)
-   KEYBOARD_KEY_cb=leftmeta         # left  --> rightmeta
-#+END_SRC
+** Lenovo ThinkPad T14
+#+begin_src conf
+  # Lenovo ThinkPad T14
+  evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadT14*
+    KEYBOARD_KEY_01=capslock
+    KEYBOARD_KEY_3a=esc
+    KEYBOARD_KEY_b8=leftctrl
+    KEYBOARD_KEY_38=leftctrl
+    KEYBOARD_KEY_b7=leftalt
+    KEYBOARD_KEY_db=leftalt
+    KEYBOARD_KEY_9d=leftmeta
+    KEYBOARD_KEY_1d=leftmeta
+#+end_src
+** Lenovo ThinkPad X131E
+#+begin_src conf
+  # Lenovo ThinkPad X131E
+  evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX131e*
+    KEYBOARD_KEY_01=capslock         # esc   --> caps
+    KEYBOARD_KEY_3a=esc              # caps  --> esc
+    KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+    KEYBOARD_KEY_db=leftalt          # super --> leftalt
+    KEYBOARD_KEY_1d=leftmeta         # leftctrl  --> leftsuper
+    KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+    KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
+    KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
+#+end_src
+** Lenovo ThinkPad X1 Carbon Gen 8
+#+begin_src conf
+  # Lenovo ThinkPad X1 Carbon Gen 8
+  evdev:atkbd:dmi:bvn*:bvr*:svnLENOVO*:pvrThinkPadX1CarbonGen8*
+    KEYBOARD_KEY_01=capslock         # esc   --> caps
+    KEYBOARD_KEY_3a=esc              # caps  --> esc
+    KEYBOARD_KEY_38=leftctrl         # alt   --> leftctrl
+    KEYBOARD_KEY_db=leftalt          # super --> leftalt
+    KEYBOARD_KEY_1d=leftmeta         # leftctrl  --> leftsuper
+    KEYBOARD_KEY_b8=leftctrl         # altgr --> leftctrl
+    KEYBOARD_KEY_b7=leftalt          # prtsc --> leftalt
+    KEYBOARD_KEY_9d=leftmeta         # rightctrl  --> leftmeta
+#+end_src
+** Pinebook Pro
+#+begin_src conf
+  # Pinebook Pro
+  evdev:input:b0003v258Ap001E*
+    KEYBOARD_KEY_70029=capslock         # esc   --> caps
+    KEYBOARD_KEY_70039=esc              # caps  --> esc
+    KEYBOARD_KEY_700e6=leftctrl         # alt   --> ctrl
+    KEYBOARD_KEY_700e2=leftctrl         # altgr --> ctrl
+    KEYBOARD_KEY_700e4=leftalt          # super --> alt
+    KEYBOARD_KEY_700e3=leftalt          # ctrl  --> alt
+    KEYBOARD_KEY_700e0=leftmeta         # left  --> meta
+    KEYBOARD_KEY_70050=leftmeta         # ctrl  --> meta
+#+end_src
+* COMMENT Local Variables                                  :NOEXPORT:ARCHIVE:
+# Local Variables:
+# eval: (add-hook 'after-save-hook 'org-babel-tangle nil t)
+# End:
