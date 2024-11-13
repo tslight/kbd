@@ -11,8 +11,8 @@ For maximum Emacs comfort, I remap my keyboard to conform to the Symbolics'
 originally written on/with.
 
 #+CAPTION: The Venerable Space Cadet Keyboard
-#+NAME:fig:Space_Cadet
-[[../img/space_cadet_close_up.jpg]]
+#+NAME:fig:Space_aCadet
+[[./.img/space_cadet_close_up.jpg]]
 
 This layout not only makes so much more sense for Emacs, but for most other
 applications too. Typically the Control key is the most commonly used modifier,
@@ -30,7 +30,18 @@ There are a variety of ways to achieve this on Linux - ~setxkbmap~, ~xmodmap~
 or with ~udev~. I choose the latter as it remaps at a lower level and therefore
 works in both X11 and a tty.
 
-* Remapping with udev
+* Quick Install
+
+Simply clone this repository, `cd` into it, run `make`, and everything should
+'just werk' (TM).
+
+Alternately, you can `org-babel-tangle` this file from Emacs and then run:
+
+#+BEGIN_SRC sh :tangle no
+  sudo systemd-hwdb update && sudo udevadm trigger
+#+END_SRC
+
+* Explanation
 
 [[https://wiki.archlinux.org/index.php/Map_scancodes_to_keycodes][Map Scancodes to Keycodes]]
 
