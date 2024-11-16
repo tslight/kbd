@@ -26,6 +26,9 @@ It also means that your modifiers are symmetrical, so you can use them in the
 same touch-typing fashion as the shift key (ie. one hand presses modifier, the
 other, the modified key).
 
+In addition I also switch the Escape and CapsLock keys, because I still use Vim
+from time to time...
+
 There are a variety of ways to achieve this on Linux - ~setxkbmap~, ~xmodmap~
 or with ~udev~. I choose the latter as it remaps at a lower level and therefore
 works in X11, Wayland and a tty. Whereas the former only work in X11.
