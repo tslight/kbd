@@ -89,8 +89,7 @@ Finally one needs to run:
 To check this has worked, run the following:
 
 #+BEGIN_SRC sh :tangle no
-  udevadm info /dev/input/by-path/*-usb-*-kbd | grep KEYBOARD_KEY
-  udevadm info /dev/input/eventX | grep KEYBOARD_KEY
+  udevadm info /dev/input/event* | grep -E 'caps|esc|meta|alt|ctrl'
 #+END_SRC
 
 * CONTRIBUTE
